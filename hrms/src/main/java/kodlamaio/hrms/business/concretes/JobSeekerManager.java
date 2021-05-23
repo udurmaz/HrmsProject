@@ -40,21 +40,27 @@ public class JobSeekerManager implements JobSeekerService {
 			return new ErrorResult("There should be not free space");		
 		}
 		else {
-			this.jobSeekerDao.save(jobSeeker);
-			return new SuccessResult("JobSeeker added");
+			if(checkUserExists(jobSeekerDao.findAll(), jobSeeker) == false) {
+				return new ErrorResult("Same email or identification number");
+			}
+			else {
+				this.jobSeekerDao.save(jobSeeker);
+				return new SuccessResult("JobSeeker added");
+			}
+			
 		}
 }
-	private Result checkUserExists(List<JobSeeker> jobSeeker , JobSeeker checkJobSeeker) {
+	private boolean checkUserExists(List<JobSeeker> jobSeeker , JobSeeker checkJobSeeker) {
 		for(JobSeeker jobseeker : jobSeeker) {
 			if(jobseeker.getEmail().equals(checkJobSeeker.getEmail())) {
 					
-				return new ErrorResult("Email is using by another user");
+				return false;
 			}
 			if(jobseeker.getIdentificationNumber().equals(checkJobSeeker.getIdentificationNumber())) {
-				return new ErrorResult("Identification Number is using by another Person");
+				return false;
 			}
 		
 		}
-		return new SuccessResult();
+		return true;
 	}
 }

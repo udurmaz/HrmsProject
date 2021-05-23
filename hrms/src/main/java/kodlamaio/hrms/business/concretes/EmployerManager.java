@@ -43,12 +43,24 @@ public class EmployerManager implements EmployerService {
 			return new ErrorResult("There should be not free space");
 		}
 		else {
-			return new SuccessResult("Employer registered");
+			if(checkUserExist(employerDao.findAll(), employer) == false) {
+				return new ErrorResult("Email already exist");
+			}
+			else {
+				this.employerDao.save(employer);
+				return new SuccessResult("Employer registered");
+			}
+			
 		}
 	}
-
-
-
 	
-
+	private boolean checkUserExist(List<Employer> employer , Employer checkEmployer) {
+		for(Employer employers : employer) {
+			if(employers.getWebsiteEmail().equals(checkEmployer)) {
+				return false;
+			}
+			
+		}
+		return true;
+	}
 }

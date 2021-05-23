@@ -34,18 +34,24 @@ public class JobPositionManager implements JobPositionService {
 
 	@Override
 	public Result add(JobPosition jobposition) {
-		this.jobPositionDao.save(jobposition);
-		return new SuccessResult("Job position added");
+		if(checkJobPositionExist(jobposition) == true) {
+			this.jobPositionDao.save(jobposition);
+			return new SuccessResult("Job position added");
+		}
+		else {
+			return new ErrorResult("Job Position already exist");
+		}
+		
 	}
 	
-	private Result checkJobPositionExist(JobPosition checkedJobPosition) {
+	private boolean checkJobPositionExist(JobPosition checkedJobPosition) {
 		for(JobPosition jobPosition  : jobPositionDao.findAll()) {
 			if(jobPosition.getJobName().equals(checkedJobPosition.getJobName())) {
-				return new ErrorResult("Job position is already exist");
+				return false;
 			}
 			
 		}
-		return new SuccessResult();
+		return true;
 	}
 
 }
