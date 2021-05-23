@@ -3,18 +3,23 @@ package kodlamaio.hrms.entities.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="job_seekers")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobSeeker {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="user_id")
 	private int id;
 	
@@ -30,16 +35,8 @@ public class JobSeeker {
 	@Column(name="birth_year")
 	private int dateOfBirth;
 	
-	public JobSeeker() {
-		
-	}
-
-	public JobSeeker(int id, String firstName, String lastName, String identificationNumber, int dateOfBirth) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.identificationNumber = identificationNumber;
-		this.dateOfBirth = dateOfBirth;
-	}
+	@Column(name="email")
+	private String email;
+	
+	
 }

@@ -3,18 +3,23 @@ package kodlamaio.hrms.entities.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name="Employers")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employer {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="employers_id")
 	private int id;
 	
@@ -30,18 +35,9 @@ public class Employer {
 	@Column(name="phone_number")
 	private String phoneNumber;
 	
+	@Column(name="password")
+	private String password;
 	
-	
-	public Employer(int id, String companyName, String website, String websiteEmail, String phoneNumber) {
-		super();
-		this.id = id;
-		this.companyName = companyName;
-		this.website = website;
-		this.websiteEmail = websiteEmail;
-		this.phoneNumber = phoneNumber;
-	}
-	
-	public Employer() {
-		
-	}
+	@Column(name="password_repeat")
+	private String password_repeat;
 }

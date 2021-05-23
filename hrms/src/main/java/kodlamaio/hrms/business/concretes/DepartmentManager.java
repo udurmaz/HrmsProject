@@ -5,7 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import kodlamaio.hrms.business.abstracts.DepartmentService;
+import kodlamaio.hrms.core.utilities.results.DataResult;
+import kodlamaio.hrms.core.utilities.results.Result;
+import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
+import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.DepartmentDao;
 import kodlamaio.hrms.entities.entities.Department;
 
@@ -22,9 +27,15 @@ public class DepartmentManager implements DepartmentService {
 
 
 	@Override
-	public List<Department> getAll() {
+	public DataResult<List<Department>> getAll() {
+		return new SuccessDataResult<List<Department>>(departmentDao.findAll(),"Department added");
+	}
 
-		return this.departmentDao.findAll();
+
+	@Override
+	public Result add(Department department) {
+		this.departmentDao.save(department);
+		return new SuccessResult("Department added");
 	}
 
 }
