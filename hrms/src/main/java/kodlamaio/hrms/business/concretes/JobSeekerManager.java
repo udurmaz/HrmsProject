@@ -32,10 +32,11 @@ public class JobSeekerManager implements JobSeekerService {
 
 	@Override
 	public Result register(JobSeeker jobSeeker) {
-		if(jobSeeker.getId() == 0 &&
+		if(jobSeeker.getId() == 0 && 
 				jobSeeker.getDateOfBirth() == 0 && 
-				jobSeeker.getFirstName().length() == 0 &&
-				jobSeeker.getLastName().length() == 0 && 
+				jobSeeker.getFirstName().length() == 0 && jobSeeker.getFirstName() == null &&
+				jobSeeker.getLastName().length() == 0 && jobSeeker.getLastName() == null &&
+				jobSeeker.getEmail().length() == 0 && jobSeeker.getEmail() == null &&
 				jobSeeker.getIdentificationNumber().length() == 0) {		
 			return new ErrorResult("There should be not free space");		
 		}
@@ -44,6 +45,7 @@ public class JobSeekerManager implements JobSeekerService {
 				return new ErrorResult("Same email or identification number");
 			}
 			else {
+				
 				this.jobSeekerDao.save(jobSeeker);
 				return new SuccessResult("JobSeeker added");
 			}
