@@ -18,11 +18,13 @@ import kodlamaio.hrms.entities.entities.JobSeeker;
 public class JobSeekerManager implements JobSeekerService {
 
 	private JobSeekerDao jobSeekerDao;
+	private EmailVerificationManager emailVerificationManager;
 
 	@Autowired
-	public JobSeekerManager(JobSeekerDao jobSeekerDao) {
+	public JobSeekerManager(JobSeekerDao jobSeekerDao , EmailVerificationManager emailVerificationManager) {
 		super();
 		this.jobSeekerDao = jobSeekerDao;
+		this.emailVerificationManager = emailVerificationManager;
 	}
 
 	@Override
@@ -47,11 +49,13 @@ public class JobSeekerManager implements JobSeekerService {
 			else {
 				
 				this.jobSeekerDao.save(jobSeeker);
+				emailVerificationManager.sendVerification(jobSeeker.getEmail());
 				return new SuccessResult("JobSeeker added");
+				
 			}
 			
 		}
-}
+}	
 	private boolean checkUserExists(List<JobSeeker> jobSeeker , JobSeeker checkJobSeeker) {
 		for(JobSeeker jobseeker : jobSeeker) {
 			if(jobseeker.getEmail().equals(checkJobSeeker.getEmail())) {
