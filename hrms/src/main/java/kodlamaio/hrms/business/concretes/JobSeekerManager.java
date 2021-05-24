@@ -49,8 +49,7 @@ public class JobSeekerManager implements JobSeekerService {
 			else {
 				
 				this.jobSeekerDao.save(jobSeeker);
-				emailVerificationManager.sendVerification(jobSeeker.getEmail());
-				return new SuccessResult("JobSeeker added");
+				return new SuccessResult("JobSeeker added" + " " + emailVerificationManager.sendVerification(jobSeeker.getEmail()));
 				
 			}
 			
