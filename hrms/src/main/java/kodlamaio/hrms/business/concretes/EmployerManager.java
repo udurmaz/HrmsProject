@@ -20,11 +20,13 @@ import kodlamaio.hrms.entities.entities.Employer;
 public class EmployerManager implements EmployerService {
 	
 	private EmployerDao employerDao;
+	private EmailVerificationManager emailVerificationManager;
 	
 	@Autowired
-	public EmployerManager(EmployerDao employerDao) {
+	public EmployerManager(EmployerDao employerDao, EmailVerificationManager emailVerificationManager) {
 		super();
 		this.employerDao = employerDao;
+		this.emailVerificationManager = emailVerificationManager;
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class EmployerManager implements EmployerService {
 			}
 			else {
 				this.employerDao.save(employer);
-				return new SuccessResult("Employer registered");
+				return new SuccessResult("Employer registered" + " " +emailVerificationManager.sendVerification(employer.getWebsiteEmail()));
 			}
 			
 		}
